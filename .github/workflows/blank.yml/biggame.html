@@ -156,3 +156,233 @@
 
 </html>
 
+ biggame.js
+
+let finalScore_1 = document.getElementById('finalScore-0');
+
+let finalScore_2 = document.getElementById('finalScore-1');
+
+let newGame = document.getElementById('new-game');
+
+let rollDice = document.getElementById('roll-dice');
+
+let currentScore_1 = document.getElementById("currentScore-0");
+let currentScore_2 = document.getElementById("currentScore-1");
+
+
+init();
+
+let score = [0, 0];
+let PlayerscurrentScore = 0;
+let activePlayer = 0;
+
+document.getElementById('img').style.display='none';
+
+rollDice.addEventListener('click', function () {
+   
+    let random = Math.floor(Math.random() * 6) + 1;
+    document.getElementById('img').src = './images/dice-' + random + '.png';
+    
+    
+    document.getElementById('img').style.display='inline-block';
+    
+    if (random !== 1) {
+      
+        PlayerscurrentScore += random;
+        document.getElementById('currentScore-' + activePlayer).textContent = PlayerscurrentScore;
+        document.getElementById('active-' + activePlayer).style.display = 'inline-block';
+    } else {
+   
+        nextPlayer();
+    }
+});
+
+  document.getElementById('hold-btn').addEventListener('click',function(){
+      score[activePlayer] += PlayerscurrentScore;
+      document.getElementById('finalScore-'+activePlayer).innerHTML = score[activePlayer];
+      if(score[activePlayer]>=100){
+          document.getElementById('playerName-'+activePlayer).innerHTML = "WINNER!!!";
+          PlayerscurrentScore = 0;
+          document.getElementById('img').style.display='none';
+          rollDice.style.cursor='no-drop';
+          document.getElementById('inputBtn').style.pointerEvents='none';
+          document.getElementById('hold-btn').style.cursor='no-drop';
+          
+      }else{
+          nextPlayer();
+      }  
+  });
+
+document.getElementById('new-game').addEventListener('click',function(){
+    init();
+    document.getElementById('img').style.display='none';
+
+})
+
+function init() {
+    finalScore_1.innerHTML = 0;
+    finalScore_2.innerHTML = 0;
+    currentScore_1.innerHTML = 0;
+    currentScore_2.innerHTML = 0;
+}
+
+
+  function nextPlayer(){
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+    PlayerscurrentScore = 0;
+    currentScore_1.textContent = '0';
+    currentScore_2.textContent = '0';
+    document.getElementById('active-0').style.display = 'none';
+    document.getElementById('active-1').style.display = 'none';
+    document.getElementById('img').style.display='none';
+  }
+  
+  CSS
+  
+  @import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
+
+/* Global styling */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto Mono', monospace;
+}
+
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("images/big.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    width: 100%;
+    /* To avoid scroll bar */
+    height: 100px;
+}
+
+/* resizing dice pics */
+.images img {
+    width: 80px;
+    height: 80px;
+    border:3px solid red;
+    border-radius: 1rem;
+}
+
+/* Aligning items to the container */
+.wrapper {
+    background-color: aliceblue;
+    width: 60%;
+    height: 25em;
+    margin: auto;
+    margin-top: 7%;
+    display: flex;
+    color: black;
+    position: relative;
+}
+
+/* adjusting the area for two player */
+#player-1 {
+    width: 50%;
+    text-align: center;
+}
+
+#player-2 {
+    width: 50%;
+    text-align: center;
+}
+
+.player-score {
+    margin-top: 20%;
+}
+
+.playerName {
+    font-size: 2rem;
+    color: red;
+}
+
+.playerScore {
+    font-size: 3rem;
+    padding: 2rem;
+}
+
+.player-currentScore {
+    background-color: hsla(0, 92%, 45%, 0.637);
+    width: 120px;
+    margin-left: 9rem;
+    margin-top: 3rem;
+    padding: .5rem;
+    border-radius: .2rem;
+    background: linear-gradient(rgb(rgba(0, 0, 0, 0.5))rgba(0, 0, 0, 0.5));
+    color:white;
+}
+
+.player-currentScore h4 {
+    font-size: small;
+    color:black
+}
+
+.player-currentScore #currentScore {
+    font-size: 2em;
+}
+
+/* Action event elements */
+.game-play {
+
+    text-align: center;
+    margin-top: -24rem;
+    width: 100%;
+    height: 23rem;
+    z-index: 1;
+    position: relative;
+}
+
+.game-play button,
+input {
+    border: none;
+    cursor: pointer;
+    outline: none;
+    background-color: white;
+
+
+}
+
+.game-play button {
+    border: 1px solid red;
+    padding: 0 1em;
+    text-align: center;
+    border-radius: 1rem;
+}
+
+.game-play i {
+    padding: .5rem;
+    font-size: 1rem;
+}
+
+.newgame {
+    padding: 2rem;
+}
+
+.rollDice {
+    margin-top: 5rem;
+}
+
+.hold {
+    margin-top: 2rem;
+}
+
+/* active class */
+#active-0 {
+    color: blue;
+    display: none;
+}
+#active-1{
+    color: blue;
+    display: none;
+}
+
+  @media screen only(max-650px){
+       body{
+ 
+         diplay :none;
+      }
+}
